@@ -14,6 +14,6 @@ public class socketHandler extends TextWebSocketHandler{
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws InterruptedException, IOException {
         JSONObject json = new JSONObject(message.getPayload());
-        session.sendMessage(new TextMessage("Message");
+        session.sendMessage(new TextMessage("Message"));
     }
 }
