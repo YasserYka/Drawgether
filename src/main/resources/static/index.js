@@ -15,15 +15,23 @@ let lastY = 0;
 function draw(event){
     if(!isDrawing)
         return;
-    console.log(event);
-    context.beginPath();
-    context.moveTo(lastX, lastY);
+    
+    _draw(lastX, lastY, event.offsetX, event.offsetY);
+
+    brodcast(lastX, lastY, event.offsetX, event.offsetY);
 
     [lastX, lastY]  = [event.offsetX, event.offsetY];
+}
 
-    context.lineTo(lastX, lastY);
+function _draw(lastX, lastY, offsetX, offsetY){
+    console.log(lastX, lastY, offsetX, offsetY)
+    context.beginPath();
+    context.moveTo(lastX, lastY);
+    context.lineTo(offsetX, offsetY);
     context.stroke();
 }
+
+function brodcast(lastX, lastY, offsetX, offsetY){socket.send([lastX, lastY, offsetX, offsetY]);}
 
 canvas.addEventListener('mousemove', draw);
 canvas.addEventListener('mousedown', () => {
@@ -33,3 +41,8 @@ canvas.addEventListener('mousedown', () => {
 });
 canvas.addEventListener('mouseup', () => isDrawing = false);
 canvas.addEventListener('mouseout', () => isDrawing = false);
+
+socket.onmessage = message => {
+    let array = message.data.split(",");
+    _draw(array[0], array[1], array[2], array[3]);
+}
