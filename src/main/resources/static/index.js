@@ -6,6 +6,7 @@ canvas.height = window.innerHeight;
 context.strokeStyle = '#FF0000';
 context.lineCap = 'round';
 context.lineJoin = 'round';
+context.lineWidth = 50;
 
 let isDrawing = false;
 let lastX = 0;
@@ -27,7 +28,7 @@ function draw(event){
 canvas.addEventListener('mousemove', draw);
 canvas.addEventListener('mousedown', () => {
     isDrawing = true;
-    
+
     [lastX, lastY]  = [event.offsetX, event.offsetY];
 });
 canvas.addEventListener('mouseup', () => isDrawing = false);
