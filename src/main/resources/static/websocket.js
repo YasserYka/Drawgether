@@ -1,7 +1,8 @@
-const socket = new WebSocket("ws://localhost:8080");
+const socket = new WebSocket("ws://localhost:8080/registry");
 
 socket.onopen = event => {
     console.log(event);
+    sendMessage("Test are you there?");
 }
 
 socket.onmessage = event => {
@@ -15,4 +16,6 @@ socket.onerror = (error) => {
     console.log(error);
 };
 
-socket.send("Test are you there?");
+function sendMessage(message){
+    socket.send(JSON.stringify(message));
+}
