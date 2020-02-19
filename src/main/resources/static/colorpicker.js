@@ -1,6 +1,6 @@
 let pickedcolor = document.getElementById("color");
 
 pickedcolor.addEventListener('change', () => {
-    _changeColor(pickedcolor.value);
-    brodcastColor(pickedcolor.value);
+    changeColor(pickedcolor.value);
+    brodcast(constructMessage("color", pickedcolor.value));
 });

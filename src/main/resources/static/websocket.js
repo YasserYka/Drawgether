@@ -12,13 +12,14 @@ socket.onerror = (error) => {
 };
 
 socket.onmessage = message => {
-    let array = message.data.split(",");
-    if(array.length == 4)
-        _draw(array[0], array[1], array[2], array[3]);
-    else
-        _changeColor(array[0]);
+    let data = JSON.parse(message.data);
+    let body = data.body;
+    if(data.event == "coordinate")
+        _draw(body[0], body[1], body[2], body[3]);
+    else if(data.event == "color")
+        changeColor(body);
 }
 
-function brodcastCoordinate(lastX, lastY, offsetX, offsetY){socket.send([lastX, lastY, offsetX, offsetY]);}
+function brodcast(message){socket.send(message);}
 
-function brodcastColor(value){socket.send(value);}
+const constructMessage = (event, body) => (JSON.stringify({'event': event, 'body':body}));

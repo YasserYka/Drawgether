@@ -18,7 +18,7 @@ function draw(event){
     
     _draw(lastX, lastY, event.offsetX, event.offsetY);
 
-    brodcastCoordinate(lastX, lastY, event.offsetX, event.offsetY);
+    brodcast(constructMessage("coordinate", [lastX, lastY, event.offsetX, event.offsetY]));
 
     [lastX, lastY]  = [event.offsetX, event.offsetY];
 }
@@ -30,7 +30,7 @@ function _draw(lastX, lastY, offsetX, offsetY){
     context.stroke();
 }
 
-function _changeColor(value){
+function changeColor(value){
     context.strokeStyle = value;
 }
 
