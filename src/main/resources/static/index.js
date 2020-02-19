@@ -43,3 +43,7 @@ canvas.addEventListener('mousedown', () => {
 
 canvas.addEventListener('mouseup', () => isDrawing = false);
 canvas.addEventListener('mouseout', () => isDrawing = false);
+
+setInterval(clearCanvas, 30000);
+
+function clearCanvas(){context.clearRect(0, 0, canvas.width, canvas.height);}

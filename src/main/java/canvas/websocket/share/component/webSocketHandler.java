@@ -16,7 +16,7 @@ public class webSocketHandler extends TextWebSocketHandler{
 
     @Override
     public void handleTextMessage(WebSocketSession client, TextMessage message) throws InterruptedException, IOException {
-        broadcast(client, new TextMessage(message.getPayload()));
+        broadcast(client, message);
     }
 
     @Override
