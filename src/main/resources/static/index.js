@@ -3,10 +3,10 @@ const context = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-context.strokeStyle = '#FF0000';
+context.strokeStyle = '#FFFFF';
 context.lineCap = 'round';
 context.lineJoin = 'round';
-context.lineWidth = 50;
+context.lineWidth = 25;
 
 let isDrawing = false;
 let lastX = 0;
@@ -18,20 +18,21 @@ function draw(event){
     
     _draw(lastX, lastY, event.offsetX, event.offsetY);
 
-    brodcast(lastX, lastY, event.offsetX, event.offsetY);
+    brodcastCoordinate(lastX, lastY, event.offsetX, event.offsetY);
 
     [lastX, lastY]  = [event.offsetX, event.offsetY];
 }
 
 function _draw(lastX, lastY, offsetX, offsetY){
-    console.log(lastX, lastY, offsetX, offsetY)
     context.beginPath();
     context.moveTo(lastX, lastY);
     context.lineTo(offsetX, offsetY);
     context.stroke();
 }
 
-function brodcast(lastX, lastY, offsetX, offsetY){socket.send([lastX, lastY, offsetX, offsetY]);}
+function _changeColor(value){
+    context.strokeStyle = value;
+}
 
 canvas.addEventListener('mousemove', draw);
 canvas.addEventListener('mousedown', () => {
@@ -39,10 +40,6 @@ canvas.addEventListener('mousedown', () => {
 
     [lastX, lastY]  = [event.offsetX, event.offsetY];
 });
+
 canvas.addEventListener('mouseup', () => isDrawing = false);
 canvas.addEventListener('mouseout', () => isDrawing = false);
-
-socket.onmessage = message => {
-    let array = message.data.split(",");
-    _draw(array[0], array[1], array[2], array[3]);
-}

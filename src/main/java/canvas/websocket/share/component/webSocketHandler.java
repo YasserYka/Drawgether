@@ -15,16 +15,17 @@ public class webSocketHandler extends TextWebSocketHandler{
     private HashMap<String, WebSocketSession> clients = new HashMap<String, WebSocketSession>();
 
     @Override
-    public void handleTextMessage(WebSocketSession session, TextMessage message) throws InterruptedException, IOException {
-        broadcast(new TextMessage(message.getPayload()));
+    public void handleTextMessage(WebSocketSession client, TextMessage message) throws InterruptedException, IOException {
+        broadcast(client, new TextMessage(message.getPayload()));
     }
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session){clients.put(session.getId(), session);}
+    public void afterConnectionEstablished(WebSocketSession client){clients.put(client.getId(), client);}
 
-    public void broadcast(TextMessage message){
+    public void broadcast(WebSocketSession sender, TextMessage message){
         for(WebSocketSession client : clients.values())
-            send(client, message);
+            if(!sender.getId().equals(client.getId()))
+                send(client, message);
     }
 
     public void send(WebSocketSession client, TextMessage message){
